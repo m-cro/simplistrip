@@ -1,13 +1,36 @@
 {
   "manifest_version": 3,
   "name": "SimpliStrip",
-  "version": "1.6.0",
-  "description": "Strips Simplify and other tracking parameters from the URL bar after page load",
+  "version": "1.7.0",
+  "description": "Strips Simplify and other tracking parameters from the URL bar, and removes AI watermarks and citation tags when copying from LLM chatbots",
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*",
+        "https://claude.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.perplexity.ai/*",
+        "https://grok.com/*",
+        "https://chat.deepseek.com/*",
+        "https://chat.mistral.ai/*"
+      ],
+      "js": [
+        "clean.js",
+        "llm.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
     }
   ],
   "browser_specific_settings": {
@@ -15,7 +38,9 @@
       "id": "simplistrip@rthak",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "required": ["none"]
+        "required": [
+          "none"
+        ]
       }
     },
     "gecko_android": {
